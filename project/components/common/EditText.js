@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 16,
     borderWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderTopWidth: 0.5,
+    borderRightWidth: 0.5,
     backgroundColor: "#fff"
   },
   labelStyle: {

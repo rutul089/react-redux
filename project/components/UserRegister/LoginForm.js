@@ -2,14 +2,25 @@
 
 //https://portal.startapp.com/#/signup URL FOR REFE
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Modal } from "react-native";
 
 import { HeaderComponents, EditText } from "../common";
 import { TextInput } from "react-native";
 import { Container, Content, Text, Button } from "native-base";
+import Register from "./Register";
 
 // create a component
 class LoginForm extends Component {
+  state = {
+    modal: false
+  };
+
+  handleModal = () => {
+    this.setState({
+      modal: !this.state.modal ? true : false
+    });
+  };
+
   render() {
     return (
       <Container
@@ -80,7 +91,7 @@ class LoginForm extends Component {
               <Button
                 full
                 style={{ backgroundColor: "#05E077" }}
-                onPress={() => alert("Sign IN")}
+                onPress={() => alert("asdsad")}
               >
                 <Text
                   uppercase={false}
@@ -100,7 +111,7 @@ class LoginForm extends Component {
                 </Button>
               </View>
               <View style={{ alignItems: "center", marginTop: 8 }}>
-                <Button transparent onPress={() => alert(" Sign Up")}>
+                <Button transparent onPress={this.handleModal}>
                   <Text uppercase={false} style={{ color: "grey" }}>
                     Don't have an account? Sign Up
                   </Text>
@@ -170,6 +181,14 @@ class LoginForm extends Component {
                 </Button>
               </View>
             </View>
+
+            <Modal
+              visible={this.state.modal}
+              onRequestClose={this.handleModal}
+              animationType={"slide"}
+            >
+              <Register  />
+            </Modal>
           </View>
         </Content>
       </Container>

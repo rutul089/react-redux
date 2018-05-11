@@ -7,10 +7,9 @@ import firebase from "firebase";
 import LoginForm from "./components/UserRegister/LoginForm";
 import Register from "./components/UserRegister/Register";
 
-
-
 // create a component
 class App extends Component {
+
   componentWillMount() {
     // Initialize Firebase
     const config = {
