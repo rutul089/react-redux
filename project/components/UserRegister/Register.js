@@ -19,7 +19,6 @@ class Register extends Component {
         style={{ flex: 1, backgroundColor: "#f2f2f2", flexDirection: "column" }}
       >
         <Content>
-          {" "}
           <HeaderComponents style={{ backgroundColor: "#24292E" }}>
             <Text style={{ color: "#fff", fontSize: 22 }}>APP NAME</Text>
           </HeaderComponents>
