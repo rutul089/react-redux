@@ -6,41 +6,24 @@ import reducer from "./reducer/index";
 import firebase from "firebase";
 import LoginForm from "./components/UserRegister/LoginForm";
 import Register from "./components/UserRegister/Register";
+import {
+  createStackNavigator,
+  StackActions,
+  NavigationActions
+} from "react-navigation";
+import UserScreen from "./components/UserRegister/UserScreen";
+import HomeActivity from "./components/Views/HomeActivity";
+import ProfileScreen from "./components/Views/ProfileScreen";
 
-// create a component
-class App extends Component {
-
-  componentWillMount() {
-    // Initialize Firebase
-    const config = {
-      apiKey: "AIzaSyALlmO4gPaXb_J3fhSeSiaW9DYhsiTAyes",
-      authDomain: "librarys-f6eac.firebaseapp.com",
-      databaseURL: "https://librarys-f6eac.firebaseio.com",
-      projectId: "librarys-f6eac",
-      storageBucket: "",
-      messagingSenderId: "780966731984"
-    };
-    firebase.initializeApp(config);
-  }
-
+export default class App extends Component {
   render() {
-    return (
-      <Provider store={createStore(reducer)}>
-        <LoginForm />
-      </Provider>
-    );
+    return <AppStackNavigator />;
   }
 }
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f2f2f2"
-  }
+const AppStackNavigator = createStackNavigator({
+  LoginForm: LoginForm,
+  UserScreen: UserScreen,
+  HomeActivity: HomeActivity,
+  ProfileScreen: ProfileScreen
 });
-
-//make this component available to the app
-export default App;

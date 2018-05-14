@@ -2,17 +2,50 @@
 
 //https://portal.startapp.com/#/signup URL FOR REFE
 import React, { Component } from "react";
-import { View, StyleSheet, Modal } from "react-native";
+import { View, StyleSheet, Modal, Platform, AsyncStorage } from "react-native";
 
 import { HeaderComponents, EditText } from "../common";
 import { TextInput } from "react-native";
 import { Container, Content, Text, Button } from "native-base";
+import { StackActions, NavigationActions } from "react-navigation";
 import Register from "./Register";
+import * as method from "../../utils/HelperMethods";
+import { isLogin } from "../../utils/Constants";
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "HomeActivity" })]
+});
 
 // create a component
 class LoginForm extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  static navigationOptions = {
+    header: null
+  };
+
   state = {
-    modal: false
+    modal: false,
+    userName: "",
+    password: ""
+  };
+
+  componentDidMount = () => {
+    this.checkFotState();
+  };
+
+  /**
+   * TO check for variable to auto login
+   */
+  checkFotState = async () => {
+    let user = await AsyncStorage.getItem(isLogin);
+
+    if (user) {
+      this.props.navigation.dispatch(resetAction);
+    }
   };
 
   handleModal = () => {
@@ -21,16 +54,27 @@ class LoginForm extends Component {
     });
   };
 
+  checkAuth = () => {
+    var _userName = this.state.userName;
+    var _password = this.state.password;
+
+    if (method.empty(_userName) && method.empty(_password)) {
+      if (method.checkForValidEmail(_userName)) {
+        AsyncStorage.setItem(isLogin, true);
+        this.props.navigation.dispatch(resetAction);
+      } else {
+        alert("Please enter valid email ");
+      }
+    } else {
+      alert("Please enter valid email and password");
+    }
+  };
+
   render() {
     return (
-      <Container
-        style={{ flex: 1, backgroundColor: "#f2f2f2", flexDirection: "column" }}
-      >
+      <Container style={styles.container}>
         <Content>
-          <HeaderComponents style={{ backgroundColor: "#24292E" }}>
-            <Text style={{ color: "#fff", fontSize: 22 }}>APP NAME</Text>
-          </HeaderComponents>
-          <View style={{ marginLeft: 10, marginRight: 10 }}>
+          <View style={styles.mainView}>
             <View
               style={{
                 justifyContent: "center",
@@ -38,15 +82,7 @@ class LoginForm extends Component {
               }}
             >
               <Text style={{ fontSize: 25, color: "#000" }}>LOGIN</Text>
-              <Text
-                note
-                style={{
-                  textAlign: "center",
-                  color: "#000",
-                  marginTop: 8,
-                  marginBottom: 35
-                }}
-              >
+              <Text note style={styles.subText}>
                 Login using your existing email and password
               </Text>
             </View>
@@ -57,12 +93,16 @@ class LoginForm extends Component {
               <EditText
                 underlineColorAndroid="transparent"
                 placeholder="Enter your email address"
+                onChangeText={userName => this.setState({ userName })}
+                value={this.state.text}
               />
 
               <EditText
                 underlineColorAndroid="transparent"
                 placeholder="Enter your password"
                 secureTextEntry={true}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.text}
               />
 
               <View style={{ alignItems: "flex-end" }}>
@@ -91,7 +131,7 @@ class LoginForm extends Component {
               <Button
                 full
                 style={{ backgroundColor: "#05E077" }}
-                onPress={() => alert("asdsad")}
+                onPress={this.checkAuth}
               >
                 <Text
                   uppercase={false}
@@ -103,14 +143,14 @@ class LoginForm extends Component {
               <View style={{ alignItems: "center", marginTop: 8 }}>
                 <Button
                   transparent
-                  onPress={() => alert(" Resend activation mail.")}
+                  onPress={() => this.props.navigation.dispatch(resetAction)}
                 >
                   <Text uppercase={false} style={{ color: "grey" }}>
-                    Resend activation mail.
+                    Login as a guest.
                   </Text>
                 </Button>
               </View>
-              <View style={{ alignItems: "center", marginTop: 8 }}>
+              <View style={{ alignItems: "center", marginTop: 5 }}>
                 <Button transparent onPress={this.handleModal}>
                   <Text uppercase={false} style={{ color: "grey" }}>
                     Don't have an account? Sign Up
@@ -187,7 +227,7 @@ class LoginForm extends Component {
               onRequestClose={this.handleModal}
               animationType={"slide"}
             >
-              <Register  />
+              <Register />
             </Modal>
           </View>
         </Content>
@@ -200,9 +240,19 @@ class LoginForm extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#f2f2f2",
+    flexDirection: "column"
+  },
+  mainView: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: Platform.OS === "ios" ? 20 : 10
+  },
+  subText: {
+    textAlign: "center",
+    color: "#000",
+    marginTop: 8,
+    marginBottom: 35
   }
 });
 

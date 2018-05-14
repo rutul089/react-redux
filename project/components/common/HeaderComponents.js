@@ -1,13 +1,12 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 
 // create a component
 const HeaderComponents = props => {
   return (
     <View style={[styles.viewStyle, props.style]}>
-      <Text style={[styles.textStyle,props.style]}>
-      {props.children}</Text>
+      <Text style={[styles.textStyle, props.style]}>{props.children}</Text>
     </View>
   );
 };
@@ -18,7 +17,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f8f8",
     justifyContent: "center",
     alignItems: "center",
-    height: 60,
+
+    height: Platform.OS === "ios" ? 34 : 40,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export  {HeaderComponents};
+export { HeaderComponents };

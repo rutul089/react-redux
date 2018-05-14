@@ -1,8 +1,8 @@
-import { AppRegistry } from "react-native";
-import React, { Component, AsyncStorage, YellowBox } from "react";
+import { AppRegistry, AsyncStorage } from "react-native";
+import React, { Component, YellowBox } from "react";
 import App from "./project/App";
-import Splash from './project/components/Views/Splash';
-
+import Splash from "./project/components/Views/Splash";
+import { isLogin } from "./project/utils/Constants";
 console.disableYellowBox = true;
 
 class Main extends Component {

@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 // create a component
 const CardComponents = props => {
-  return <View style={styles.container}>{props.children}</View>;
+  return <View style={[styles.container, props.style]}>{props.children}</View>;
 };
 
 // define your styles
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export {CardComponents } ;
+export { CardComponents };

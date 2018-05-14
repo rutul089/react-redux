@@ -1,6 +1,11 @@
 //import liraries
 import React, { Component } from "react";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Platform
+} from "react-native";
 
 import { Container, Content, Button, Radio, Right, Text } from "native-base";
 import { HeaderComponents, EditText } from "../common";
@@ -19,10 +24,13 @@ class Register extends Component {
         style={{ flex: 1, backgroundColor: "#f2f2f2", flexDirection: "column" }}
       >
         <Content>
-          <HeaderComponents style={{ backgroundColor: "#24292E" }}>
-            <Text style={{ color: "#fff", fontSize: 22 }}>APP NAME</Text>
-          </HeaderComponents>
-          <View style={{ marginLeft: 10, marginRight: 10 }}>
+          <View
+            style={{
+              marginLeft: 10,
+              marginRight: 10,
+              marginTop: Platform.OS === "ios" ? 20 : 10
+            }}
+          >
             <View
               style={{
                 justifyContent: "center",
