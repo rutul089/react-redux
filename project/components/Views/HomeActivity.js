@@ -12,83 +12,68 @@ import {
 
 import { NavigationActions } from "react-navigation";
 import { isLogin } from "../../utils/Constants";
-import { Container, Content, Text } from "native-base";
+import { Container, Content, Text, Spinner } from "native-base";
 import CardFeed from "./../common/CardFeed";
 import axios from "axios";
-
+var data = [];
 // create a component
 class HomeActivity extends Component {
+  state = { data: [], results: [], isLoading: true };
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: true
-    };
   }
-
-  state = { data: [], isLoading: true, dataSource };
 
   static navigationOptions = {
     title: "Feed"
   };
 
-  componentDidMount = () => {
-    // axios
-    //   .get("https://hplussport.com/api/products.php")
-    //   //.then(response =>console.log(response));
-    //   .then(response =>
-    //     this.setState({
-    //       data: response.data,
-    //       isLoading: false
-    //     })
-    //   );
+  componentDidMount() {
+    axios
+      .get("https://hplussport.com/api/products.php")
+      //.then(response =>console.log(response));
+      .then(response =>
+        this.setState({
+          data: response.data,
+          isLoading: false
+        })
+      );
+  }
 
-    return fetch("https://hplussport.com/api/products.php")
-      .then(response => response.json())
-      .then(responseJson => {
-        let ds = new ListView.DataSource({
-          rowHasChanged: (r1, r2) => r1 !== r2
-        });
-        this.setState(
-          {
-            isLoading: false,
-            dataSource: ds.cloneWithRows(responseJson)
-          },
-          function() {
-            // In this block you can do something with new state.
-          }
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
+  displayingData() {
+    if (this.state.isLoading) {
+      return (
+        <View
+          style={{
+            justifyContent: "center",
+            alignSelf: "center"
+          }}
+        >
+          <Spinner style={{ justifyContent: "center", alignItems: "center" }} />
+        </View>
+      );
+    } else {
+      return this.renderUsers();
+    }
+  }
+
+  renderUsers() {
+    //On click
+
+    return this.state.data.map(data => (
+      <CardFeed
+        image={{ uri: data.image }}
+        name={data.name}
+        description={data.description}
+      />
+    ));
+  }
 
   render() {
+    console.log(this.state.dataSource);
     return (
       <Container style={styles.containerM}>
         <Content>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={rowData => (
-              <View style={styles.container}>
-                <TouchableOpacity>
-                  <View>
-                    <Image
-                      source={require("../../assets/images/st.png")}
-                      style={styles.cardImage}
-                    />
-                  </View>
-                  <View>
-                    <Text>{rowData.name}</Text>
-                    <Text note> {rowData.description}</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-          <ScrollView horizontal>
-            <CardFeed />
-          </ScrollView>
+          <ScrollView horizontal>{this.displayingData()}</ScrollView>
         </Content>
       </Container>
     );

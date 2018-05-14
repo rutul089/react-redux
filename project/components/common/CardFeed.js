@@ -3,19 +3,16 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 // create a component
-const CardFeed = () => {
+const CardFeed = ({image, name, description}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
         <View>
-          <Image
-            source={require("../../assets/images/st.png")}
-            style={styles.cardImage}
-          />
+          <Image source={image} style={styles.cardImage} />
         </View>
         <View>
-          <Text>adsa</Text>
-          <Text note> adasda ojoajd oijaois jdoiasj doi</Text>
+          <Text>{name}</Text>
+          <Text note> {description}</Text>
         </View>
       </TouchableOpacity>
     </View>
