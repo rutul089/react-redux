@@ -43,7 +43,9 @@ class LoginForm extends Component {
   checkFotState = async () => {
     let user = await AsyncStorage.getItem(isLogin);
 
-    if (user) {
+    if (user === "true") {
+      this.props.navigation.dispatch(resetAction);
+    }else{
       this.props.navigation.dispatch(resetAction);
     }
   };
