@@ -3,6 +3,8 @@ import React, { Component, YellowBox } from "react";
 import App from "./project/App";
 import Splash from "./project/components/Views/Splash";
 import { isLogin } from "./project/utils/Constants";
+import CardFeed from './project/components/common/CardFeed';
+import WalkThrough from "./project/components/walk_through/WalkThrough";
 console.disableYellowBox = true;
 
 class Main extends Component {

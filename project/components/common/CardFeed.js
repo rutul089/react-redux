@@ -1,18 +1,22 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Text } from "native-base";
 // create a component
-const CardFeed = ({image, name, description}) => {
+const CardFeed = ({ image, name, description, onPress }) => {
+  //32 word 59Word
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
         <View>
           <Image source={image} style={styles.cardImage} />
         </View>
-        <View>
-          <Text>{name}</Text>
-          <Text note> {description}</Text>
+        <View style={{ padding: 5 }}>
+          <Text numberOfLines={1}>{name}</Text>
+          <Text  numberOfLines={5} note style={{ marginTop: 5, color: "#0d0d0d" }}>
+            {" "}
+            {description}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -22,7 +26,6 @@ const CardFeed = ({image, name, description}) => {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    height: 250,
     width: 150,
     backgroundColor: "#fff",
     margin: 5,
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     height: 120,
-    resizeMode: "cover",
+    resizeMode: "contain",
     width: null,
     borderTopRightRadius: 2,
     borderTopLeftRadius: 2
