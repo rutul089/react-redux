@@ -9,6 +9,7 @@ import {
   WebView,
   ScrollView,
   ListView,
+  FlatList,
   TextInput,
   Dimensions
 } from "react-native";
@@ -17,8 +18,11 @@ import { NavigationActions } from "react-navigation";
 import { isLogin } from "../../utils/Constants";
 import { Container, Content, Text, Spinner } from "native-base";
 import CardFeed from "./../common/CardFeed";
-import axios from "axios";
 
+import axios from "axios";
+import GridComponents from "../common/GridComponents";
+
+const URL = "http://staging.aroma.ca/wp-json/aroma_api/get_themas";
 // create a component
 
 class HomeActivity extends Component {
@@ -34,7 +38,10 @@ class HomeActivity extends Component {
       }),
       isLoading: true,
       isLoadingA: true,
-      text: ""
+      list: [],
+      text: "",
+
+      category_id: ""
     };
     this.arrayHolder = [];
   }
@@ -60,11 +67,10 @@ class HomeActivity extends Component {
         );
       })
       .catch(error => {
-        alert('Something went wrong please try after some time')
-        
+        alert("Something went wrong please try after some time");
       });
 
-    axios
+    /*axios
       .get("https://hplussport.com/api/products.php")
       //.then(response =>console.log(response));
       .then(response =>
@@ -75,6 +81,21 @@ class HomeActivity extends Component {
       )
       .catch(error => {
         console.error(error);
+      });*/
+
+    axios
+      .get(URL)
+      .then(response =>
+        this.setState({
+          list: response.data.data,
+          isLoadingA: false
+        })
+      )
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+        alert("Something went wrong please try after some time");
       });
   }
 
@@ -82,6 +103,14 @@ class HomeActivity extends Component {
   navigateUser = description => {
     this.props.navigation.navigate("ProfileScreen", {
       JSON_ListView_Clicked_Item: description
+    });
+  };
+
+  getCategoryId = item => {
+    //    alert(category_id);
+    this.props.navigation.navigate("MenuView", {
+      JSON_category_id: item.category_id,
+      JSON_HEAD: item.title
     });
   };
 
@@ -148,6 +177,31 @@ class HomeActivity extends Component {
     }
   }
 
+  displayUsingGrid() {
+    if (this.state.isLoadingA) {
+      return (
+        <View style={styles.spinnerStyle}>
+          <Spinner />
+        </View>
+      );
+    } else {
+      return (
+        <FlatList
+          data={this.state.list}
+          renderItem={({ item }) => (
+            <GridComponents
+              image={{ uri: item.image }}
+              text={item.title}
+              onPress={this.getCategoryId.bind(this, item)}
+            />
+          )}
+          keyExtractor={(item, index) => index}
+          numColumns={2}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <Container style={styles.containerM}>
@@ -169,8 +223,12 @@ class HomeActivity extends Component {
 
             {this.displayingDataWithFetch()}
           </View>
-          <View>
-          <Button onPress ={()=>this.props.navigation.navigate('MapActivity')} title="MapView"/>
+          <View>{this.displayUsingGrid()}</View>
+          <View style={{ margin: 12 }}>
+            <Button
+              onPress={() => this.props.navigation.navigate("MapActivity")}
+              title="MapView"
+            />
           </View>
         </Content>
       </Container>
@@ -199,6 +257,13 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2
   },
+  cardImage: {
+    height: 120,
+    width: 120,
+    resizeMode: "contain",
+    borderTopRightRadius: 2,
+    borderTopLeftRadius: 2
+  },
   TextInputStyleClass: {
     textAlign: "center",
     marginLeft: 5,
@@ -215,6 +280,21 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: 50,
     backgroundColor: "#FFFFFF"
+  },
+  cardView: {
+    justifyContent: "center",
+    flex: 1,
+    alignItems: "center",
+    height: 200,
+    margin: 5,
+    justifyContent: "center",
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    backgroundColor: "#fff"
   }
 });
 

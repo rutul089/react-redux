@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 
 import axios from "axios";
+import { Spinner } from "native-base";
 // create a component
 const URL =
   "http://staging.aroma.ca/wp-json/aroma_api/nearest_store_list_data?lat=43.6534399&lng=-79.38409009999998";
@@ -16,32 +17,38 @@ class MapActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: []
+      list: [],
+      isLoading: true
     };
   }
 
   componentDidMount() {
-    axios.get(URL).then(response =>
-      this.setState({
-        list: response.data.data,
-        isLoading: false
-      })
-    );
-  }
-
-  renderUsers() {
-    //On click
-
-    return this.state.list.map(results => (
-      <View>
-        <Text>{results.lat}</Text>
-      </View>
-    ));
+    axios
+      .get(URL)
+      .then(response =>
+        this.setState({
+          list: response.data.data,
+          isLoading: false
+        })
+      )
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+        alert("Something went wrong please try after some time");
+      });
   }
 
   render() {
-    console.log("In redner" + this.state.list);
-
+    if (this.state.isLoading) {
+      return (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Spinner />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <MapView
@@ -63,6 +70,7 @@ class MapActivity extends Component {
             <MapView.Marker
               pinColor={"#000"}
               coordinate={{
+                //You cant not parse string here it require float or double
                 latitude: parseFloat(marker.lat),
                 longitude: parseFloat(marker.lng)
               }}
@@ -71,7 +79,6 @@ class MapActivity extends Component {
             />
           ))}
         </MapView>
-        {/*0this.renderUsers() */}
       </View>
     );
   }

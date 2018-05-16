@@ -14,7 +14,9 @@ import {
 import UserScreen from "./components/UserRegister/UserScreen";
 import HomeActivity from "./components/Views/HomeActivity";
 import ProfileScreen from "./components/Views/ProfileScreen";
-import MapActivity from './components/Views/MapActivity';
+import MapActivity from "./components/Views/MapActivity";
+import MenuView from "./components/Views/MenuView";
+
 
 export default class App extends Component {
   render() {
@@ -27,5 +29,6 @@ const AppStackNavigator = createStackNavigator({
   UserScreen: UserScreen,
   HomeActivity: HomeActivity,
   ProfileScreen: ProfileScreen,
-  MapActivity: MapActivity
+  MapActivity: MapActivity,
+  MenuView: MenuView
 });
