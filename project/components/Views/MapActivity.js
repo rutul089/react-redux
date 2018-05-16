@@ -1,13 +1,30 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-
+import MapView from "react-native-maps";
 // create a component
 class MapActivity extends Component {
   render() {
     return (
       <View style={styles.container}>
-     
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121
+          }}
+        >
+          <MapView.Marker
+            coordinate={{
+              latitude: 37.78825,
+              longitude: -122.4324
+            }}
+            title={"test"}
+            description={"test"}
+          />
+        </MapView>
       </View>
     );
   }
@@ -17,9 +34,20 @@ class MapActivity extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2c3e50"
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    position: "absolute",
+    justifyContent: "flex-end",
+    alignItems: "center"
+  },
+  map: {
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    position: "absolute"
   }
 });
 

@@ -94,13 +94,13 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.projecttwo"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         ndk {
@@ -138,8 +138,14 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api 'com.android.support:appcompat-v7:23.4.0'
+    api 'com.android.support:appcompat-v7:24.0.0'
     api 'com.facebook.react:react-native:+'
+      implementation(project(':react-native-maps')){
+        exclude group: 'com.google.android.gms', module: 'play-services-base'
+        exclude group: 'com.google.android.gms', module: 'play-services-maps'
+    }
+    implementation 'com.google.android.gms:play-services-base:10.0.1'
+    implementation 'com.google.android.gms:play-services-maps:10.0.1'
     // From node_modules
 }
 
