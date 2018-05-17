@@ -7,12 +7,17 @@ import { Spinner, Content, Container } from "native-base";
 
 const URL = "http://staging.aroma.ca/wp-json/aroma_api/menulist?";
 
-
 //http://staging.aroma.ca/wp-json/aroma_api/menudetail?menuid=2698&userid=509 next api for detail screen
 
 // create a component
 class MenuView extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
 
+    return {
+      title: params ? params.JSON_HEAD : "Menu Screen"
+    };
+  };
   constructor(props) {
     super(props);
 
@@ -22,8 +27,10 @@ class MenuView extends Component {
       category_id: ""
     };
   }
+
   componentDidMount() {
     category_id = this.props.navigation.state.params.JSON_category_id;
+
     axios
       .get("http://staging.aroma.ca/wp-json/aroma_api/menulist", {
         params: {
@@ -45,10 +52,10 @@ class MenuView extends Component {
   }
 
   getCategoryId = category_id => {
-    alert(category_id.ID);
-    // this.props.navigation.navigate("MenuView", {
-    //   JSON_category_id: ID
-    // });
+    this.props.navigation.navigate("MenuDetailActivity", {
+      ID: category_id.ID,
+      header_title: category_id.title
+    });
   };
 
   displayUsingGrid() {

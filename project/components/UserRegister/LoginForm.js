@@ -21,6 +21,7 @@ const resetAction = StackActions.reset({
 class LoginForm extends Component {
   constructor(props) {
     super(props);
+  
   }
 
   static navigationOptions = {
@@ -29,8 +30,8 @@ class LoginForm extends Component {
 
   state = {
     modal: false,
-    userName: "",
-    password: ""
+    userName: "abc@abc.com",
+    password: "123"
   };
 
   componentDidMount = () => {
@@ -41,13 +42,18 @@ class LoginForm extends Component {
    * TO check for variable to auto login
    */
   checkFotState = async () => {
-    let user = await AsyncStorage.getItem(isLogin);
+    // user = AsyncStorage.getItem(isLogin);
 
-    if (user === "true") {
-      this.props.navigation.dispatch(resetAction);
-    }else{
-      this.props.navigation.dispatch(resetAction);
-    }
+    // console.log("isLogin: " + user);
+
+    // if (user) {
+    //   this.props.navigation.dispatch(resetAction);
+    // }
+
+    await AsyncStorage.getItem(isLogin, (result) => {
+      console.log(result);
+    });
+
   };
 
   handleModal = () => {
@@ -62,7 +68,7 @@ class LoginForm extends Component {
 
     if (method.empty(_userName) && method.empty(_password)) {
       if (method.checkForValidEmail(_userName)) {
-        AsyncStorage.setItem(isLogin, true);
+        AsyncStorage.setItem("isLogin", "true");
         this.props.navigation.dispatch(resetAction);
       } else {
         alert("Please enter valid email ");

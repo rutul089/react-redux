@@ -112,6 +112,7 @@ class HomeActivity extends Component {
       JSON_category_id: item.category_id,
       JSON_HEAD: item.title
     });
+    // this.props.navigation.state.params()
   };
 
   //To search particular item

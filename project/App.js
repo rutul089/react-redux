@@ -16,10 +16,11 @@ import HomeActivity from "./components/Views/HomeActivity";
 import ProfileScreen from "./components/Views/ProfileScreen";
 import MapActivity from "./components/Views/MapActivity";
 import MenuView from "./components/Views/MenuView";
-
+import MenuDetailActivity from "./components/Views/MenuDetailActivity";
 
 export default class App extends Component {
   render() {
+    let { intl } = this.context;
     return <AppStackNavigator />;
   }
 }
@@ -30,5 +31,6 @@ const AppStackNavigator = createStackNavigator({
   HomeActivity: HomeActivity,
   ProfileScreen: ProfileScreen,
   MapActivity: MapActivity,
-  MenuView: MenuView
+  MenuView: { screen: MenuView },
+  MenuDetailActivity: MenuDetailActivity
 });
