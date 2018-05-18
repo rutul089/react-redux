@@ -4,6 +4,9 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { Container, Content, Text } from "native-base";
 import axios from "axios";
 import MText from "./../MText";
+
+import mdata from "./data.json";
+
 const URL =
   "http://staging.aroma.ca/wp-json/aroma_api/menudetail?menuid=2698&userid=509";
 
@@ -23,10 +26,11 @@ class MenuDetailActivity extends Component {
 
     this.state = {
       isLoading: true,
-      list: [],
-
+      list: "",
       ID: ""
     };
+
+    this.arrayHolder = [];
   }
 
   componentDidMount() {
@@ -38,13 +42,17 @@ class MenuDetailActivity extends Component {
           userid: 509
         }
       })
-      .then(response =>
-        this.setState({
-          list: response.data.data,
-          option: response.data.data.options,
-          isLoading: false
-        })
-      )
+      // .then(response => console.log(response.data.data.options[0]));
+      .then(response => {
+        this.setState(
+          {
+            list: response.data.data,
+            ID: response.data.data.ID,
+            isLoading: false
+          },
+          function() {}
+        );
+      })
       .catch(error => {
         console.error(error);
         this.setState({
@@ -55,7 +63,6 @@ class MenuDetailActivity extends Component {
   }
 
   renderUser() {
-    const temp = JSON.stringify([{ item1: "test" }]);
     const {
       options,
       title,
@@ -66,32 +73,30 @@ class MenuDetailActivity extends Component {
       Importantinformation
     } = this.state.list;
 
-    return (
-      <View>
-        <Text>{title}</Text>
-        <Text>{category}</Text>
-        <Text>{image}</Text>
-
-        
-        <Text>{is_favorite}</Text>
-        <Text>{description}</Text>
-        <Text>{Importantinformation}</Text>
-      </View>
-    );
-  }
-
-  renderUSer() {
-    console.log(this.state.list);
-    return this.state.list.options.map((item, index) => (
-      <Text>{item.product_title}</Text>
-    ));
+    if (!this.state.isLoading) {
+      console.log("JSON:\n---Starts\n" + options + "\n---End");
+      return (
+        <View>
+          <Text>{options[0].product_title}</Text>
+          <Text>{JSON.stringify(options[0].ingredients)}</Text>
+          <Text>{title}</Text>
+          <Text>{category}</Text>
+          <Text>{image}</Text>
+          <Text>{is_favorite}</Text>
+          <Text>{description}</Text>
+          <Text>{Importantinformation}</Text>
+        </View>
+      );
+    }
   }
 
   render() {
     console.log(this.state.list);
     return (
       <Container style={styles.container}>
-        <Content>{this.renderUser()}</Content>
+        <Content>
+          <View>{this.renderUser()}</View>
+        </Content>
       </Container>
     );
   }
