@@ -5,6 +5,7 @@ import Splash from "./project/components/Views/Splash";
 import { isLogin } from "./project/utils/Constants";
 import CardFeed from './project/components/common/CardFeed';
 import WalkThrough from "./project/components/walk_through/WalkThrough";
+import AppI from './AppI';
 console.disableYellowBox = true;
 
 class Main extends Component {

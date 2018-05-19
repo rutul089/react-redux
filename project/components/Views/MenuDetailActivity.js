@@ -1,18 +1,24 @@
 //import liraries
 import React, { Component } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, WebView } from "react-native";
 import { Container, Content, Text } from "native-base";
 import axios from "axios";
-import MText from "./../MText";
 
-import mdata from "./data.json";
-
+import HTMLView from "react-native-htmlview";
+import { Button } from "react-native";
+import MenuDetailComponents from "./../common/MenuDetailComponents";
 const URL =
   "http://staging.aroma.ca/wp-json/aroma_api/menudetail?menuid=2698&userid=509";
 
+const optionsSize = 0;
+const mProduct_title = "";
+const mIngredients = [];
+const initial = true;
+
 // create a component
 class MenuDetailActivity extends Component {
-  state = { option: [] };
+  state = { oz20: false };
+
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
@@ -27,10 +33,8 @@ class MenuDetailActivity extends Component {
     this.state = {
       isLoading: true,
       list: "",
-      ID: ""
+      mOptionsIndex: 0
     };
-
-    this.arrayHolder = [];
   }
 
   componentDidMount() {
@@ -42,16 +46,11 @@ class MenuDetailActivity extends Component {
           userid: 509
         }
       })
-      // .then(response => console.log(response.data.data.options[0]));
       .then(response => {
-        this.setState(
-          {
-            list: response.data.data,
-            ID: response.data.data.ID,
-            isLoading: false
-          },
-          function() {}
-        );
+        this.setState({
+          list: response.data.data,
+          isLoading: false
+        });
       })
       .catch(error => {
         console.error(error);
@@ -62,7 +61,19 @@ class MenuDetailActivity extends Component {
       });
   }
 
+  renderList(data) {
+    if (!this.state.isLoading && optionsSize > 0) {
+      console.log("---OUT:Data" + mIngredients);
+      return data.map(results => (
+        <Text key={results.Name}>
+          {results.Name}+{results.value}
+        </Text>
+      ));
+    }
+  }
+
   renderUser() {
+    //De structuring list
     const {
       options,
       title,
@@ -73,18 +84,57 @@ class MenuDetailActivity extends Component {
       Importantinformation
     } = this.state.list;
 
+    /**
+     * Due to lyf cycle of react native happens render method automatically called
+     * so we have to maintain a flag or wait for till the we have response to show or work with it
+     */
     if (!this.state.isLoading) {
-      console.log("JSON:\n---Starts\n" + options + "\n---End");
+      /**
+       * idx is the index of option if and changes when user
+       */
+      const idx = this.state.mOptionsIndex;
+      optionsSize = options.length;
+      // const product_title = "";
+      // const ingredients = [];
+
+      if (idx < optionsSize && optionsSize > 0) {
+        if (optionsSize === 0) {
+          idx = 0;
+        } else {
+          if (idx === optionsSize - 1) {
+            idx = 0;
+          } else {
+            if (!initial) {
+              idx = idx + 1;
+            }
+          }
+        }
+        const { product_title, ingredients } = options[idx];
+
+        mProduct_title = product_title;
+        mIngredients = ingredients;
+
+        console.log("---IN:Data" + product_title + "  IDX:" + idx);
+      }
+
       return (
         <View>
-          <Text>{options[0].product_title}</Text>
-          <Text>{JSON.stringify(options[0].ingredients)}</Text>
-          <Text>{title}</Text>
-          <Text>{category}</Text>
-          <Text>{image}</Text>
-          <Text>{is_favorite}</Text>
-          <Text>{description}</Text>
-          <Text>{Importantinformation}</Text>
+          <MenuDetailComponents
+            title={title}
+            image={{ uri: image }}
+            description={description}
+            Importantinformation={Importantinformation}
+          />
+          <Button
+            title="20oz"
+            onPress={() => {
+              initial = false;
+              this.setState({
+                mOptionsIndex: idx
+              });
+            }}
+          />
+          {this.renderList(mIngredients)}
         </View>
       );
     }
