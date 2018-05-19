@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Container, Content, Text, Icon, Button } from "native-base";
 import HTMLView from "react-native-htmlview";
+
 // create a component
 const MenuDetailComponents = ({
   title,
@@ -19,13 +20,27 @@ const MenuDetailComponents = ({
   product_title,
   Name,
   value,
-  onPressOz
+  onPressOz,
+  letsRenderIng,
+  arraySize,
+  loadingState
 }) => {
+  renderList = () => {
+    if (!loadingState && arraySize > 0) {
+     
+      return letsRenderIng.map(results => (
+        <Text key={results.Name}>
+          {results.Name}+{results.value}
+        </Text>
+      ));
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={{ marginLeft: 5, marginRight: 5 }}>
         <Text style={styles.textTittle}>{title}</Text>
-        <HTMLView style={styles.textDescription} value ={description}/>
+        <HTMLView style={styles.textDescription} value={description} />
         <View style={styles.imageView}>
           <Image source={image} style={styles.imageStyle} />
         </View>
@@ -87,10 +102,8 @@ const MenuDetailComponents = ({
                 justifyContent: "space-between",
                 alignItems: "center"
               }}
-            >
-              <Text>{Name}</Text>
-              <Text>{value}</Text>
-            </View>
+            />
+            {this.renderList()}
           </View>
         </View>
         {/**

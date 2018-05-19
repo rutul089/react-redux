@@ -124,6 +124,9 @@ class MenuDetailActivity extends Component {
             image={{ uri: image }}
             description={description}
             Importantinformation={Importantinformation}
+            letsRenderIng={mIngredients}
+            arraySize={optionsSize}
+            loadingState={this.state.isLoading}
           />
           <Button
             title="20oz"
