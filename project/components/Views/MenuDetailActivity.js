@@ -1,12 +1,13 @@
 //import liraries
 import React, { Component } from "react";
 import { View, StyleSheet, FlatList, WebView } from "react-native";
-import { Container, Content, Text } from "native-base";
+import { Container, Content, Text, Spinner } from "native-base";
 import axios from "axios";
 
 import HTMLView from "react-native-htmlview";
 import { Button } from "react-native";
 import MenuDetailComponents from "./../common/MenuDetailComponents";
+import { checkForValidString } from "./../../utils/HelperMethods";
 const URL =
   "http://staging.aroma.ca/wp-json/aroma_api/menudetail?menuid=2698&userid=509";
 
@@ -61,17 +62,6 @@ class MenuDetailActivity extends Component {
       });
   }
 
-  renderList(data) {
-    if (!this.state.isLoading && optionsSize > 0) {
-      console.log("---OUT:Data" + mIngredients);
-      return data.map(results => (
-        <Text key={results.Name}>
-          {results.Name}+{results.value}
-        </Text>
-      ));
-    }
-  }
-
   renderUser() {
     //De structuring list
     const {
@@ -114,7 +104,14 @@ class MenuDetailActivity extends Component {
         mProduct_title = product_title;
         mIngredients = ingredients;
 
-        console.log("---IN:Data" + product_title + "  IDX:" + idx);
+        console.log(
+          "---IN:Data" +
+            product_title +
+            "  IDX:" +
+            idx +
+            "Size " +
+            mProduct_title.length + "optionSize" + optionsSize
+        );
       }
 
       return (
@@ -125,19 +122,22 @@ class MenuDetailActivity extends Component {
             description={description}
             Importantinformation={Importantinformation}
             letsRenderIng={mIngredients}
+            letsRenderPt={mProduct_title}
             arraySize={optionsSize}
             loadingState={this.state.isLoading}
-          />
-          <Button
-            title="20oz"
-            onPress={() => {
+            onPressOz={() => {
               initial = false;
               this.setState({
                 mOptionsIndex: idx
               });
             }}
           />
-          {this.renderList(mIngredients)}
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Spinner />
         </View>
       );
     }

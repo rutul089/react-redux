@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Container, Content, Text, Icon, Button } from "native-base";
 import HTMLView from "react-native-htmlview";
+import { checkForValidString } from "./../../utils/HelperMethods";
 
 // create a component
 const MenuDetailComponents = ({
@@ -17,22 +18,68 @@ const MenuDetailComponents = ({
   is_favorite,
   description,
   Importantinformation,
-  product_title,
+
   Name,
   value,
   onPressOz,
   letsRenderIng,
+  letsRenderPt,
   arraySize,
   loadingState
 }) => {
+  renderData = () => {
+    if (!loadingState && arraySize > 0) {
+      return (
+        <View>
+          <Text style={{ margin: 5, fontSize: 25, borderBottomWidth: 1 }}>
+            Ingredients
+          </Text>
+          {this.renderList()}
+        </View>
+      );
+    }
+  };
+
   renderList = () => {
     if (!loadingState && arraySize > 0) {
-     
       return letsRenderIng.map(results => (
-        <Text key={results.Name}>
-          {results.Name}+{results.value}
-        </Text>
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingVertical: 5,
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginLeft: 25,
+              marginRight: 15
+            }}
+          >
+            <Text key={results.NAme}>{results.Name}</Text>
+            <Text>{results.value}</Text>
+          </View>
+        </View>
       ));
+    }
+  };
+
+  renderProduct_title = () => {
+    if (!loadingState && letsRenderPt.length > 0) {
+      return (
+        <View>
+          <View>
+            <Text note style={[styles.textDescription, { marginTop: 10 }]}>
+              Please select one Option
+            </Text>
+          </View>
+          <View style={[styles.buttonStyle, { padding: 5, margin: 5 }]}>
+            <TouchableOpacity style={styles.optionStyle} onPress={onPressOz}>
+              <Text style={{ textAlign: "center" }}>{letsRenderPt}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else {
+      console.log("false empty");
     }
   };
 
@@ -40,7 +87,7 @@ const MenuDetailComponents = ({
     <ScrollView style={styles.container}>
       <View style={{ marginLeft: 5, marginRight: 5 }}>
         <Text style={styles.textTittle}>{title}</Text>
-        <HTMLView style={styles.textDescription} value={description} />
+        <HTMLView value={description} />
         <View style={styles.imageView}>
           <Image source={image} style={styles.imageStyle} />
         </View>
@@ -75,36 +122,15 @@ const MenuDetailComponents = ({
          *This is view for select option for oz of devices
          *
          */}
-        <View>
-          <Text note style={[styles.textDescription, { marginTop: 10 }]}>
-            Please select one Option
-          </Text>
-          <View style={[styles.buttonStyle, { padding: 5, margin: 5 }]}>
-            <TouchableOpacity style={styles.optionStyle} onPress={onPressOz}>
-              <Text style={{ textAlign: "center" }}>{product_title}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+
+        <View>{this.renderProduct_title()}</View>
+
         {/**
          *This is view for selected ingredients
          *
          */}
         <View>
-          <Text style={{ margin: 5, fontSize: 25, borderBottomWidth: 1 }}>
-            Ingredients
-          </Text>
-          <View style={{ margin: 5, marginLeft: 20 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                borderBottomWidth: 1,
-                paddingVertical: 5,
-                justifyContent: "space-between",
-                alignItems: "center"
-              }}
-            />
-            {this.renderList()}
-          </View>
+          <View style={{ margin: 5 }}>{this.renderData()}</View>
         </View>
         {/**
          *This is view for selected Important Information
