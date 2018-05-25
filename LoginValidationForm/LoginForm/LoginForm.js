@@ -1,13 +1,12 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet,Image } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import { Button, Content } from "native-base";
 import InputComponent from "../common/InputComponent";
 import { TextInput } from "react-native";
 import validationRules from "./validationRules";
 import { StackActions, NavigationActions } from "react-navigation";
 var email, password, mobileNumber, cPassword;
-
 
 // create a component
 class LoginForm extends Component {
@@ -196,6 +195,7 @@ class LoginForm extends Component {
   render() {
     return (
       <Content style={styles.container}>
+        <StatusBar  />
         <View
           style={{
             padding: 10,
@@ -297,7 +297,7 @@ class LoginForm extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff"
   },
   btnView: {
     justifyContent: "center",

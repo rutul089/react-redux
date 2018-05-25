@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#DFECF5"
   },
   viewStyle: {
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#C70404",
     justifyContent: "center",
     alignItems: "center",
     height: Platform.OS === "ios" ? 34 : 48,

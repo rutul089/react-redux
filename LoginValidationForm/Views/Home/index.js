@@ -1,12 +1,13 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet ,Platform} from "react-native";
+import { View, Text, StyleSheet, Platform, StatusBar } from "react-native";
 
 // create a component
 class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#C70410" />
         <View style={styles.viewStyle}>
           <Text style={styles.textStyle}>Home</Text>
         </View>
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#DFECF5"
   },
   viewStyle: {
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#C70404",
     justifyContent: "center",
     alignItems: "center",
     height: Platform.OS === "ios" ? 34 : 48,

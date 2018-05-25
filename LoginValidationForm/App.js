@@ -61,10 +61,11 @@ const AppStackNavigator = createBottomTabNavigator(
     order: ["Home", "Profile"],
     backBehavior: "none",
     tabBarOptions: {
-      activeTintColor: "#279AF0",
-      inactiveTintColor: "#EAE7F7",
+      activeTintColor: "#D24849",
+      inactiveTintColor: "#D1D1D1",
       style: {
-        backgroundColor: "#1E1A2B"
+        backgroundColor: "#E3E4E5",
+        borderTopWidth: 0
       }
     }
   }
