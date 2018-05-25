@@ -1,11 +1,16 @@
 import { AppRegistry, AsyncStorage } from "react-native";
 import React, { Component, YellowBox } from "react";
-import App from "./project/App";
+/**
+ * remove comment from  main app
+ */
+//import App from "./project/App"; 
 import Splash from "./project/components/Views/Splash";
 import { isLogin } from "./project/utils/Constants";
 import CardFeed from './project/components/common/CardFeed';
 import WalkThrough from "./project/components/walk_through/WalkThrough";
 import AppI from './AppI';
+
+import App from './LoginValidationForm/App';
 console.disableYellowBox = true;
 
 class Main extends Component {
@@ -27,4 +32,4 @@ class Main extends Component {
   }
 }
 
-AppRegistry.registerComponent("ProjectTwo", () => Main);
+AppRegistry.registerComponent("ProjectTwo", () => App);

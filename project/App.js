@@ -34,3 +34,5 @@ const AppStackNavigator = createStackNavigator({
   MenuView: { screen: MenuView },
   MenuDetailActivity: MenuDetailActivity
 });
+
+
