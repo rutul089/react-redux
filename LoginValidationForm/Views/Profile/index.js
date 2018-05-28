@@ -1,6 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
+import { BACKGROUND_COLOR ,STATUSBAR_COLOR,BACKGROUND_COLOR_TAB} from './../../Util/Color';
 
 // create a component
 class Profile extends Component {
@@ -20,10 +21,10 @@ class Profile extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#DFECF5"
+    backgroundColor: "#F2f2f2"
   },
   viewStyle: {
-    backgroundColor: "#C70404",
+    backgroundColor: BACKGROUND_COLOR_TAB,
     justifyContent: "center",
     alignItems: "center",
     height: Platform.OS === "ios" ? 34 : 48,
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 22,
-    color: "#000",
+    color: "#fff",
     fontWeight: "bold"
   }
 });

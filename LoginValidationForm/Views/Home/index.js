@@ -1,17 +1,74 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Platform, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  StatusBar,
+  ScrollView
+} from "react-native";
+import {
+  BACKGROUND_COLOR,
+  STATUSBAR_COLOR,
+  BACKGROUND_COLOR_TAB
+} from "./../../Util/Color";
+import Horizontal_Scroll from "./Horizontal_Scroll";
+import BlockItem from "./BlockItem";
+import data from "../../Util/data.json";
+
 
 // create a component
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      categories: [
+        "All",
+        "Electronic",
+        "Sporting",
+        "Computer",
+        "Tools",
+        "Kitchen",
+        "Automotive",
+        "Music",
+        "Outdoor"
+      ],
+      selected: "All"
+    };
+  }
+
+  updateCategory = value => {
+    this.setState({
+      selected: value
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#C70410" />
+        <StatusBar backgroundColor={STATUSBAR_COLOR} />
         <View style={styles.viewStyle}>
           <Text style={styles.textStyle}>Home</Text>
         </View>
-        <Text>Home</Text>
+        <ScrollView>
+          <Horizontal_Scroll
+            categories={this.state.categories}
+            selected={this.state.selected}
+            updateCategory={this.updateCategory}
+          />
+          <View
+            style={{
+              marginLeft: 8,
+              marginRight: 8
+            }}
+          >
+            <Text style={styles.textStyle}>{this.state.selected}</Text>
+            <Text>{this.state.selected}</Text>
+            <BlockItem />
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -21,10 +78,10 @@ class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#DFECF5"
+    backgroundColor: "#fff"
   },
   viewStyle: {
-    backgroundColor: "#C70404",
+    backgroundColor: BACKGROUND_COLOR_TAB,
     justifyContent: "center",
     alignItems: "center",
     height: Platform.OS === "ios" ? 34 : 48,
@@ -35,7 +92,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 22,
-    color: "#000",
+    color: "#f2f2f2",
     fontWeight: "bold"
   }
 });

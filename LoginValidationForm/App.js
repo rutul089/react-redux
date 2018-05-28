@@ -13,6 +13,11 @@ import LoginForm from "./LoginForm/LoginForm";
 import Home from "./Views/Home/index";
 import Profile from "./Views/Profile/index";
 import { Icon } from "native-base";
+import {
+  ACTIVE_TINT_COLOR,
+  BACKGROUND_COLOR_TAB,
+  INACTIVE_TINT_COLOR
+} from "./Util/Color";
 
 export default class App extends Component {
   render() {
@@ -61,10 +66,10 @@ const AppStackNavigator = createBottomTabNavigator(
     order: ["Home", "Profile"],
     backBehavior: "none",
     tabBarOptions: {
-      activeTintColor: "#D24849",
-      inactiveTintColor: "#D1D1D1",
+      activeTintColor: ACTIVE_TINT_COLOR,
+      inactiveTintColor: INACTIVE_TINT_COLOR,
       style: {
-        backgroundColor: "#E3E4E5",
+        backgroundColor: BACKGROUND_COLOR_TAB,
         borderTopWidth: 0
       }
     }
