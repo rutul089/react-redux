@@ -84,7 +84,7 @@ class LoginForm extends Component {
     let valid = validationRules(value, rules, formCopy); // we are parsing value for value , rules for rule detail and formCopy for all detail
     formCopy[name].valid = valid;
 
-    //console.log(valid);
+    console.log(valid);
 
     this.setState({
       form: formCopy

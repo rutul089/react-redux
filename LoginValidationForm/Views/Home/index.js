@@ -18,7 +18,6 @@ import Horizontal_Scroll from "./Horizontal_Scroll";
 import BlockItem from "./BlockItem";
 import data from "../../Util/data.json";
 
-
 // create a component
 class Home extends Component {
   constructor(props) {
@@ -66,7 +65,6 @@ class Home extends Component {
           >
             <Text style={styles.textStyle}>{this.state.selected}</Text>
             <Text>{this.state.selected}</Text>
-            <BlockItem />
           </View>
         </ScrollView>
       </View>

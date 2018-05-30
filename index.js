@@ -10,7 +10,9 @@ import CardFeed from './project/components/common/CardFeed';
 import WalkThrough from "./project/components/walk_through/WalkThrough";
 import AppI from './AppI';
 
-import App from './LoginValidationForm/App';
+//import App from './LoginValidationForm/App';
+//import App from './AnimationProject/app';
+import App from './#3.Find Beer App/App';
 console.disableYellowBox = true;
 
 class Main extends Component {
